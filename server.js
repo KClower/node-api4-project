@@ -23,8 +23,13 @@ const Users = [
     },
 ]
 
+// server.get('/', (req, res) => {
+//     res.json('Hello from the server.');
+// });
+
 server.get('/', (req, res) => {
-    res.json('Hello from the server.');
+    const message = process.env.MESSAGE;
+    res.json({ message });
 });
 
 server.get('/users', (req, res) => {
