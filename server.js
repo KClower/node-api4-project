@@ -24,8 +24,7 @@ const Users = [
 ]
 
 server.get('/', (req, res) => {
-    const message = process.env.MESSAGE;
-    res.status(200).json({ message });
+    res.json('Hello from the server.');
 });
 
 server.get('/users', (req, res) => {
@@ -47,7 +46,7 @@ server.delete('/users/:id', (req, res) => {
     const id = req.params.id;
 
     const deleted = Users.find(u => u.id === id);
-    users = Users.filter(u => u.id !== id);
+    Users = Users.filter(u => u.id !== id);
 
     return res.status(200).json({ message: "Deleted", deleted });
 });
