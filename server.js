@@ -4,7 +4,7 @@ const server = express();
 
 server.use(express.json());
 
-const users = [
+const Users = [
     {
         id: 1,
         name: "Oscar",
@@ -24,11 +24,12 @@ const users = [
 ]
 
 server.get('/', (req, res) => {
-    res.json('Hello from the server.');
+    const message = process.env.MESSAGE;
+    res.status(200).json({ message });
 });
 
 server.get('/users', (req, res) => {
-    return res.status(200).json(users);
+    return res.status(200).json(Users);
 });
 
 server.post('/users', (req, res) => {
@@ -36,20 +37,22 @@ server.post('/users', (req, res) => {
     if (!newUser.name) {
         return res.status(400).json({ message: "Please provide name." });
     }
-    const nextId = users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1;
+    const nextId = Users.length > 0 ? Math.max(...Users.map(User => User.id)) + 1 : 1;
     newUser.id = nextId;
-    users.push(newUser);
+    Users.push(newUser);
     return res.status(201).json({ message: "User has been added", newUser });
 });
 
-// server.delete('/users/:id', (req, res) => {
-//     const id = req.params.id;
+server.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
 
-//     const deleted = users.find(u => u.id === id);
-//     users = users.filter(u => u.id !== id);
+    const deleted = Users.find(u => u.id === id);
+    users = Users.filter(u => u.id !== id);
 
-//     return res.status(200).json({ message: "Deleted", deleted });
-// });
+    return res.status(200).json({ message: "Deleted", deleted });
+});
+
+
 
 
 module.exports = server;
